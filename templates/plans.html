@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% block title %}Plans{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="plans-hero">
+    <h1><i class="fas fa-hand-holding-heart"></i> Support the Mission</h1>
+    <p>Choose a plan that helps manage surplus food and makes a real impact.</p>
+</section>
+
+<!-- Billing Toggle -->
+<div class="billing-toggle">
+    <span>Billing: </span>
+    <label class="switch">
+        <input type="checkbox" id="billing-toggle" onchange="toggleBilling()">
+        <span class="slider round"></span>
+    </label>
+    <span id="billing-label">Annual</span>
+</div>
+
+<!-- Plans Section -->
+<section class="plans-container">
+    <!-- Basic Plan -->
+    <div class="plan-card basic">
+        <h2><i class="fas fa-leaf"></i> Basic Plan</h2>
+        <p class="price" id="basic-price">₹999/year</p>
+        <ul>
+            <li><i class="fas fa-certificate"></i> Certificate of Donation</li>
+            <li><i class="fas fa-times"></i> Data Insights</li>
+            <li><i class="fas fa-times"></i> Surplus Food Management</li>
+        </ul>
+        <button class="subscribe-btn" onclick="subscribe('basic')">Subscribe</button>
+    </div>
+
+    <!-- Premium Plan -->
+    <div class="plan-card premium">
+        <h2><i class="fas fa-seedling"></i> Premium Plan</h2>
+        <p class="price" id="premium-price">₹2499/year</p>
+        <ul>
+            <li><i class="fas fa-certificate"></i> Certificate of Donation</li>
+            <li><i class="fas fa-chart-line"></i> Data Insights & Analytics</li>
+            <li><i class="fas fa-boxes"></i> Surplus Food Management Dashboard</li>
+        </ul>
+        <button class="subscribe-btn highlight" onclick="subscribe('premium')">Subscribe</button>
+    </div>
+</section>
+
+<!-- Note -->
+<section class="note">
+    <p><i class="fas fa-heart"></i> 100% of your subscription goes toward reducing food waste and feeding lives. Thank you!</p>
+</section>
+
+<!-- Razorpay/Stripe Placeholder -->
+<script>
+function subscribe(planType) {
+    alert("Subscription for " + planType + " plan initiated.\nThis is where Razorpay/Stripe will be integrated.");
+    // TODO: Integrate Stripe or Razorpay checkout based on `planType`
+}
+
+function toggleBilling() {
+    const isMonthly = document.getElementById("billing-toggle").checked;
+    document.getElementById("billing-label").innerText = isMonthly ? "Monthly" : "Annual";
+    document.getElementById("basic-price").innerText = isMonthly ? "₹99/month" : "₹999/year";
+    document.getElementById("premium-price").innerText = isMonthly ? "₹249/month" : "₹2499/year";
+}
+</script>
+
+<!-- FontAwesome CDN -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<style>
+.plans-hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f9f9f9;
+}
+
+.plans-hero h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.plans-hero p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.billing-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    font-size: 1rem;
+    gap: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #008080;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.plans-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 50px 20px;
+    background-color: #fff;
+}
+
+.plan-card {
+    background-color: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.plan-card:hover {
+    transform: scale(1.05);
+}
+
+.plan-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #2d2d2d;
+}
+
+.plan-card .price {
+    font-size: 1.5rem;
+    color: #008080;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.plan-card ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+    color: #444;
+}
+
+.plan-card ul li {
+    margin: 10px 0;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.subscribe-btn {
+    padding: 12px 30px;
+    font-size: 1rem;
+    background-color: #008080;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.subscribe-btn:hover {
+    background-color: #006666;
+}
+
+.subscribe-btn.highlight {
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
+.note {
+    text-align: center;
+    background: #f0f8f8;
+    padding: 40px 20px;
+    font-size: 1.1rem;
+    color: #333;
+    font-style: italic;
+}
+</style>
+
+{% endblock %}

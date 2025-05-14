@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% block title %}Community{% endblock %}
+{% block content %}
+
+<style>
+  .hero {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/static/images/community-hero.jpg') no-repeat center center/cover;
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+    border-radius: 12px;
+  }
+  .section {
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: auto;
+  }
+  .section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  .grid-item {
+    flex: 1 1 250px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  .impact-wall {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .impact-box {
+    background: #eaf7ea;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 200px;
+    margin: 10px;
+  }
+  .testimonials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  .testimonial {
+    background: #fff;
+    padding: 20px;
+    border-left: 5px solid #4CAF50;
+    max-width: 400px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+  }
+  .gallery img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+  .cta {
+    background: #f1f1f1;
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+  }
+  .cta a {
+    display: inline-block;
+    margin: 10px;
+    padding: 12px 24px;
+    background: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+</style>
+
+<div class="hero">
+  <h1>Welcome to the Resavr Community</h1>
+  <p>Together, we are reducing waste and feeding lives.</p>
+</div>
+
+<div class="section">
+  <h2>Who Makes Up Our Community</h2>
+  <div class="grid">
+    <div class="grid-item">
+      <h3>🍳 Restaurant Partners</h3>
+      <p>Donating fresh surplus meals daily.</p>
+    </div>
+    <div class="grid-item">
+      <h3>🏥 Food Banks</h3>
+      <p>Receiving and distributing food to those in need.</p>
+    </div>
+    <div class="grid-item">
+      <h3>🧱 Volunteers</h3>
+      <p>Ensuring smooth pickups and deliveries.</p>
+    </div>
+    <div class="grid-item">
+      <h3>💪 Donors</h3>
+      <p>Supporting us to grow and scale impact.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Community Impact Wall</h2>
+  <div class="impact-wall">
+    <div class="impact-box">
+      <h3>5,000+</h3>
+      <p>Meals Served</p>
+    </div>
+    <div class="impact-box">
+      <h3>300+</h3>
+      <p>Restaurants</p>
+    </div>
+    <div class="impact-box">
+      <h3>50+</h3>
+      <p>Food Banks</p>
+    </div>
+    <div class="impact-box">
+      <h3>2,000+</h3>
+      <p>Volunteers</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Voices From The Ground</h2>
+  <div class="testimonials">
+    <div class="testimonial">
+      “Resavr made food donations easy and purposeful.” <br><strong>- Chef Maya</strong>
+    </div>
+    <div class="testimonial">
+      “We now feed over 100 families each week. Game changer!” <br><strong>- Anil, Food Bank Leader</strong>
+    </div>
+    <div class="testimonial">
+      “Volunteering for Resavr gives my weekends real meaning.” <br><strong>- Priya, Student</strong>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Glimpses of Life at Resavr</h2>
+  <div class="gallery">
+    <img src="/static/images/life1.jpg" alt="volunteer helping">
+    <img src="/static/images/life2.jpg" alt="food distribution">
+    <img src="/static/images/life3.jpg" alt="team photo">
+    <img src="/static/images/life4.jpg" alt="pickup van">
+  </div>
+</div>
+
+<div class="section cta">
+  <h2>Join The Movement</h2>
+  <p>Ready to make an impact? Join us in fighting food waste.</p>
+  <a href="/register">Join as a Restaurant</a>
+  <a href="/register">Join as a Food Bank</a>
+  <a href="/volunteer">Become a Volunteer</a>
+</div>
+
+{% endblock %}
