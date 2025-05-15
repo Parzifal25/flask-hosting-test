@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from firebase_admin import credentials, initialize_app
 
 # Initialize Flask app
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'your_default_secret_key')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///resavr.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
