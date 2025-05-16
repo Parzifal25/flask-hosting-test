@@ -14,6 +14,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///res
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
+firebase_creds = os.getenv("FIREBASE_CREDS")
+if firebase_creds:
+    cred = credentials.Certificate(json.loads(firebase_creds))
+    initialize_app(cred)
+else:
+    raise ValueError("FIREBASE_CREDS environment variable not set")
+
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
 
