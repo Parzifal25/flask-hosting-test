@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+<div class="page-wrapper">
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form method="POST" action="/register">
+                <h1>Create Account</h1>
+                <div class="social-container">
+                    <a href="#" class="google" id="google-sign-in"><i class="fa-brands fa-google"></i></a>
+                </div>
+                <span>or use your email or mobile</span>
+                <input type="text" name="username" placeholder="Username" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <input type="tel" name="mobile" placeholder="Mobile Number" pattern="[0-9]{10}" required />
+                <input type="password" id="register-password" name="password" placeholder="Password" required />
+                <label>
+                    <input type="checkbox" onclick="togglePassword('register-password')"> Show Password
+                </label>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form method="POST" action="/login">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="google" id="google-sign-in"><i class="fa-brands fa-google"></i></a>
+                </div>
+                <span id="login-method-toggle-text">or use your account</span>
+        
+                <!-- Email + Password -->
+                <div id="email-login">
+                    <input type="email" name="email" placeholder="Email" />
+                    <input type="password" name="password" placeholder="Password" />
+                </div>
+        
+                <!-- Mobile Number -->
+                <div id="mobile-login" style="display: none;">
+                    <input type="tel" id="mobile-number" name="mobile" placeholder="Mobile Number" pattern="[0-9]{10}" maxlength="10" required />
+                    
+                    <div id="recaptcha-container"></div>
+                    <button type="button" onclick="sendOTP()">Send OTP</button>
+
+                    <input type="text" id="otp" name="otp" placeholder="Enter OTP" />
+                    <button type="button" onclick="verifyOTP()">Verify OTP</button>
+                </div>
+        
+                <a href="#">Forgot your password?</a>
+        
+                <!-- Toggle -->
+                <label style="margin-top: 10px;">
+                    <input type="checkbox" id="loginToggle" onchange="toggleLoginMethod()" />
+                    Use Mobile Number Instead
+                </label>
+        
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+        
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start your journey with us</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f6f5f7;
+    padding: 20px;
+}
+</style>
+
+<!-- Firebase SDK -->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, RecaptchaVerifier, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "{{ firebase_api_key }}",
+        authDomain: "{{ firebase_auth_domain }}",
+        projectId: "{{ firebase_project_id }}",
+        storageBucket: "{{ firebase_storage_bucket }}",
+        messagingSenderId: "{{ firebase_messaging_sender_id }}",
+        appId: "{{ firebase_app_id }}"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    // Google Sign-In
+    const provider = new GoogleAuthProvider();
+    document.getElementById('google-sign-in').addEventListener('click', () => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                const user = result.user;
+                fetch('/google_login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        idToken: user.accessToken,
+                        uid: user.uid,
+                        email: user.email,
+                        displayName: user.displayName
+                    })
+                }).then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          window.location.href = '/';
+                      }
+                  });
+            }).catch((error) => {
+                console.error(error);
+            });
+    });
+
+    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+    'size': 'invisible',
+    'callback': (response) => {
+      // reCAPTCHA solved, allow sendOTP
+      sendOTP();
+    }
+  }, auth);
+
+  let confirmationResult;
+
+  window.sendOTP = function () {
+    const phoneNumber = '+91' + document.querySelector('input[name="mobile"]').value;
+    signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+      .then((result) => {
+        confirmationResult = result;
+        alert("OTP Sent!");
+      }).catch((error) => {
+        console.error("OTP error", error);
+        alert("Failed to send OTP");
+      });
+  };
+
+  window.verifyOTP = function () {
+    const otp = document.getElementById('otp').value;
+    confirmationResult.confirm(otp).then((result) => {
+      result.user.getIdToken().then((token) => {
+        fetch("/verify_phone", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ idToken: token })
+        }).then(res => res.json()).then(data => {
+          if (data.success) {
+            window.location.href = data.redirect_url;
+          } else {
+            alert("Login failed");
+          }
+        });
+      });
+    }).catch((error) => {
+      console.error(error);
+      alert("Invalid OTP");
+    });
+  };
+</script>
+
+<script>
+function togglePassword(id) {
+    var passwordInput = document.getElementById(id);
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+    } else {
+        passwordInput.type = "password";
+    }
+}
+
+const signUpButton = document.getElementById('signUp');
+const signInButton = document.getElementById('signIn');
+const container = document.getElementById('container');
+
+signUpButton.addEventListener('click', () => {
+	container.classList.add("right-panel-active");
+});
+
+signInButton.addEventListener('click', () => {
+	container.classList.remove("right-panel-active");
+});
+
+function toggleLoginMethod() {
+    const isMobile = document.getElementById("loginToggle").checked;
+    document.getElementById("email-login").style.display = isMobile ? "none" : "block";
+    document.getElementById("mobile-login").style.display = isMobile ? "block" : "none";
+    document.getElementById("login-method-toggle-text").innerText = isMobile ? "or use your mobile number" : "or use your account";
+}
+</script>
+<style>
+    p,label{
+        color: black;
+    }
+</style>
+{% endblock %}

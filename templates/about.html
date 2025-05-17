@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+{% block title %}about{% endblock %}
+
+{% block content %}
+<style>
+    .about-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #eee;
+}
+
+.hero {
+  text-align: center;
+  background-color: #222;
+  padding: 60px 20px;
+  border-radius: 12px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #bbb;
+}
+
+.origin {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 60px 0;
+  align-items: center;
+  gap: 30px;
+}
+
+.origin-text, .origin-img {
+  flex: 1;
+}
+
+.origin-img img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.mission-vision {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin: 60px 0;
+}
+
+.card {
+  background: #333;
+  padding: 30px;
+  border-radius: 12px;
+  flex: 1;
+  box-shadow: 0 0 12px #111;
+}
+
+.card h2 {
+  margin-bottom: 15px;
+}
+
+.how-it-works {
+  margin: 60px 0;
+  text-align: center;
+}
+
+.how-it-works .steps {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.step {
+  flex: 1;
+  margin: 20px;
+  max-width: 200px;
+}
+
+.step img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.glimpses {
+  margin: 60px 0;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  height: 180px;
+}
+
+.blog {
+  margin: 60px 0;
+}
+
+.blog-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.blog-card {
+  background: #2b2b2b;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 280px;
+  box-shadow: 0 0 10px #000;
+}
+
+.blog-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.blog-card h3 {
+  margin-top: 15px;
+}
+
+.blog-card p {
+  color: #bbb;
+}
+
+.blog-card a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #121212;
+        color: #e0e0e0;
+        line-height: 1.8;
+    }
+
+    .about-hero {
+        background: linear-gradient(to right, #1f1f1f, #2a2a2a);
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+    .about-hero h1 {
+        color: #FFD700;
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .about-hero p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: auto;
+        color: #ccc;
+    }
+
+    .section {
+        padding: 60px 20px;
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+    .section.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .section img {
+        width: 100%;
+        max-width: 500px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+    }
+
+    .section-content {
+        flex: 1;
+    }
+
+    .section-content h2 {
+        color: #FFD700;
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    .section-content p {
+        font-size: 1.05rem;
+        color: #ccc;
+    }
+
+    .how-it-works {
+        background-color: #1e1e1e;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .how-it-works h2 {
+        color: #FFD700;
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+    }
+
+    .steps {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .step {
+        background: #2c2c2c;
+        padding: 25px;
+        border-radius: 15px;
+        width: 220px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transition: transform 0.3s;
+    }
+
+    .step:hover {
+        transform: translateY(-5px);
+    }
+
+    .step h3 {
+        color: #FFD700;
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .step p {
+        font-size: 0.95rem;
+        color: #ddd;
+    }
+
+    @media (max-width: 768px) {
+        .section {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="about-container">
+    <section class="hero">
+      <h1>About Resavr</h1>
+      <p>Where technology meets compassion. We’re on a mission to stop food waste and feed the nation.</p>
+    </section>
+  
+    <section class="origin">
+      <div class="origin-text">
+        <h2>Our Origin Story</h2>
+        <p>Born out of a late-night brainstorming session and a shared frustration with the enormous food wastage problem, Resavr was founded by a group of techies and changemakers who believed in using AI for good. From humble beginnings to making real-world impact, every meal saved is a small revolution.</p>
+      </div>
+      <div class="origin-img">
+        <img src="{{ url_for('static', filename='images/origin.jpg') }}" alt="Origin Story">
+      </div>
+    </section>
+  
+    <section class="mission-vision">
+      <div class="card">
+        <h2>Our Mission</h2>
+        <p>To bridge the gap between surplus and scarcity by connecting restaurants with food banks in real-time, ensuring no good food goes to waste.</p>
+      </div>
+      <div class="card">
+        <h2>Our Vision</h2>
+        <p>We envision a future where food waste is history, hunger is optional, and every meal matters. A smarter, more sustainable food ecosystem for all.</p>
+      </div>
+    </section>
+  
+    <section class="how-it-works">
+      <h2>How Resavr Works</h2>
+      <div class="steps">
+        <div class="step">
+          <img src="{{ url_for('static', filename='images/step1.png') }}" alt="Step 1">
+          <p>🍲 Restaurants list surplus food</p>
+        </div>
+        <div class="step">
+          <img src="{{ url_for('static', filename='images/step2.png') }}" alt="Step 2">
+          <p>🚚 Resavr notifies nearby food banks</p>
+        </div>
+        <div class="step">
+          <img src="{{ url_for('static', filename='images/step3.png') }}" alt="Step 3">
+          <p>🤝 Food gets picked up & redistributed</p>
+        </div>
+      </div>
+    </section>
+  
+    <section class="glimpses">
+      <h2>Glimpses of Life at Resavr</h2>
+      <div class="gallery">
+        <img src="{{ url_for('static', filename='images/team1.jpg') }}" alt="Team at work">
+        <img src="{{ url_for('static', filename='images/event1.jpg') }}" alt="Donation event">
+        <img src="{{ url_for('static', filename='images/lunch.jpg') }}" alt="Team lunch">
+        <img src="{{ url_for('static', filename='images/volunteer.jpg') }}" alt="Volunteers in action">
+      </div>
+    </section>
+  
+    <section class="blog">
+      <h2>From Our Blog</h2>
+      <div class="blog-cards">
+        <div class="blog-card">
+          <img src="{{ url_for('static', filename='images/blog1.jpg') }}" alt="Blog 1">
+          <h3>How One Meal Saved Can Spark Change</h3>
+          <p>Read how a single pickup fed 30+ families in one night.</p>
+          <a href="#">Read More →</a>
+        </div>
+        <div class="blog-card">
+          <img src="{{ url_for('static', filename='images/blog2.jpg') }}" alt="Blog 2">
+          <h3>The Hidden Cost of Food Waste</h3>
+          <p>Understand why food waste is more than just leftovers.</p>
+          <a href="#">Read More →</a>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+{% endblock %}
